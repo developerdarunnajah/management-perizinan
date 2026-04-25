@@ -1,0 +1,31 @@
+/* RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, sans-serif; background: #f4f6f9; color: #333; }
+
+/* UTILS */
+.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-primary { background: #2c3e50; color: white; }
+.btn-primary:hover { background: #34495e; }
+.full-width { width: 100%; }
+.text-danger { color: #e74c3c; }
+
+/* LAYOUT LOGIN */
+.login-page { display: flex; height: 100vh; justify-content: center; align-items: center; }
+.login-card { background: white; padding: 2rem; border-radius: 8px; width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; }
+.form-group input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+
+/* LAYOUT DASHBOARD */
+.app-container { display: flex; min-height: 100vh; }
+.sidebar { width: 240px; background: #2c3e50; color: white; display: flex; flex-direction: column; padding: 1rem; position: fixed; height: 100%; }
+.sidebar h2 { margin-bottom: 2rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; }
+.nav-link { color: #bdc3c7; text-decoration: none; padding: 12px; display: block; border-radius: 4px; margin-bottom: 5px; }
+.nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: white; }
+.main-content { margin-left: 240px; flex: 1; padding: 2rem; }
+
+/* CARDS */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.card { background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #ddd; }
+.card h3 { font-size: 0.9rem; color: #7f8c8d; text-transform: uppercase; margin-bottom: 0.5rem; }
+.card .number { font-size: 2rem; font-weight: bold; color: #2c3e50; }

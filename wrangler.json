@@ -1,0 +1,31 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "management-perizinan",
+	"main": "./src/worker/index.ts",
+	"compatibility_date": "2025-10-08",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true,
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "db_perizinan_prod",
+			"database_id": "47e9e61c-1d2c-41b6-b875-6b1fafce0f11",
+		}
+	],
+	"r2_buckets": [
+		{
+			"bucket_name": "storage-pesantren",
+			"binding": "BUCKET","preview_bucket_name": "storage-pesantren"
+		}
+	]
+}

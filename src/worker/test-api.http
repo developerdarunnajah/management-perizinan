@@ -1,0 +1,132 @@
+### 1. Test Server Hidup
+GET http://localhost:5173/
+
+### 2. REGISTER USER BARU (Operator PPDB)
+POST http://localhost:5173/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin_ppdb",
+  "password": "password123",
+  "nama_lengkap": "Ustadz Admin",
+  "peran": "operator_ppdb"
+}
+
+### 3. LOGIN (Coba masuk dengan akun tadi)
+POST http://localhost:5173/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin_ppdb",
+  "password": "password123"
+}
+
+### ========================================
+### TEST MANAJEMEN SANTRI
+### ========================================
+
+### 4. TAMBAH SANTRI BARU (Harus Login sbg Operator PPDB)
+POST http://localhost:5173/api/santri
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbl9wcGRiIiwicm9sZSI6Im9wZXJhdG9yX3BwZGIiLCJuYW1hIjoiVXN0YWR6IEFkbWluIiwiZXhwIjoxNzY5NjQ0MTIyfQ.AkP_Ee3Vnqt99rCU8Q5o93hNFad2lMK4mSuu8McmZow
+Content-Type: application/json
+
+{
+  "nis": "2024001",
+  "nama_lengkap": "Ahmad Santoso",
+  "jenis_kelamin": "L",
+  "nama_wali": "Bapak Budi",
+  "nomor_wali": "08123456789"
+}
+
+### 5. LIHAT DAFTAR SANTRI
+GET http://localhost:5173/api/santri
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbl9wcGRiIiwicm9sZSI6Im9wZXJhdG9yX3BwZGIiLCJuYW1hIjoiVXN0YWR6IEFkbWluIiwiZXhwIjoxNzY5NjQ0MTIyfQ.AkP_Ee3Vnqt99rCU8Q5o93hNFad2lMK4mSuu8McmZow
+
+### 6. CARI SANTRI (Filter Nama)
+GET http://localhost:5173/api/santri?nama=Ahmad
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbl9wcGRiIiwicm9sZSI6Im9wZXJhdG9yX3BwZGIiLCJuYW1hIjoiVXN0YWR6IEFkbWluIiwiZXhwIjoxNzY5NjQ0MTIyfQ.AkP_Ee3Vnqt99rCU8Q5o93hNFad2lMK4mSuu8McmZow
+
+### ========================================
+### PERSIAPAN AKUN (JALANKAN SEKALI SAJA)
+### ========================================
+
+### A. Buat Akun Operator Perizinan
+POST http://localhost:5173/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "op_izin",
+  "password": "123",
+  "nama_lengkap": "Kang Keamanan",
+  "peran": "operator_perizinan"
+}
+
+### B. Buat Akun Ndalem (Pak Yai/Gus)
+POST http://localhost:5173/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "ndalem1",
+  "password": "123",
+  "nama_lengkap": "Abah Yai",
+  "peran": "ndalem"
+}
+
+### ========================================
+### LOGIN & AMBIL TOKEN
+### ========================================
+
+### 1. Login Operator (Copy Token hasilnya!)
+POST http://localhost:5173/api/auth/login
+Content-Type: application/json
+
+{ "username": "op_izin", "password": "123" }
+
+### 2. Login Ndalem (Copy Token hasilnya!)
+POST http://localhost:5173/api/auth/login
+Content-Type: application/json
+
+{ "username": "ndalem1", "password": "123" }
+
+
+### ========================================
+### ALUR PERIZINAN (GANTI TOKEN SESUAI PERAN)
+### ========================================
+
+### 3. [OPERATOR] Mengajukan Izin Baru
+# Ganti TOKEN_OPERATOR dengan token dari login no 1
+# Ganti id_santri dengan ID santri yang sudah ada (misal 1)
+POST http://localhost:5173/api/perizinan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJvcF9pemluIiwicm9sZSI6Im9wZXJhdG9yX3Blcml6aW5hbiIsIm5hbWEiOiJLYW5nIEtlYW1hbmFuIiwiZXhwIjoxNzY5NjQ5NTUzfQ.tIr5RLpijrptvIUop_-JSZb6hr57gaIFYllXv_AQjwA
+Content-Type: application/json
+
+{
+  "id_santri": 1,
+  "alasan": "Takziah Saudara Meninggal"
+}
+
+### 4. [NDALEM] Menyetujui Izin
+# Ganti TOKEN_NDALEM dengan token dari login no 2
+# Ganti ID di URL (misal /1/putusan) sesuai ID perizinan yang dibuat tadi
+PUT http://localhost:5173/api/perizinan/1/putusan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJuZGFsZW0xIiwicm9sZSI6Im5kYWxlbSIsIm5hbWEiOiJBYmFoIFlhaSIsImV4cCI6MTc2OTY0OTYwM30.LP8t0SdiwP-Zb-jysZrk34xXZPiW0VW0gmKH6kHDa3A
+Content-Type: application/json
+
+{
+  "status": "DISETUJUI",
+  "tenggat_waktu": "2026-01-22 18:00:00", 
+  "catatan": "Hati-hati di jalan"
+}
+# CATATAN TESTING: 
+# Ubah "tenggat_waktu" jadi tanggal MASA LALU (misal tahun 2020) untuk ngetes status TERLAMBAT.
+# Ubah jadi MASA DEPAN untuk ngetes status KEMBALI (Tepat Waktu).
+
+### 5. [OPERATOR] Konfirmasi Santri Pulang
+# Ganti TOKEN_OPERATOR
+PUT http://localhost:5173/api/perizinan/1/kembali
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJvcF9pemluIiwicm9sZSI6Im9wZXJhdG9yX3Blcml6aW5hbiIsIm5hbWEiOiJLYW5nIEtlYW1hbmFuIiwiZXhwIjoxNzY5NjQ5NTUzfQ.tIr5RLpijrptvIUop_-JSZb6hr57gaIFYllXv_AQjwA
+
+
+### 6. Cek Riwayat
+GET http://localhost:8787/api/perizinan
+Authorization: Bearer TOKEN_OPERATOR
